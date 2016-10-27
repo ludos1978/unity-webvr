@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en-us">
+  <head> <!-- Inspired by: https://github.com/gtk2k/Unity-WebVR-Assets -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webvr</title>
+    <meta name="description" content="webvr">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="webvr.css" />
+  </head>
+  <body> 
+    <div id="loader">
+      <p>Loading...</p>
+    </div>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="960" width="600"></canvas>
+    <script type='text/javascript'>
+  var Module = {
+    TOTAL_MEMORY: 536870912,
+    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+    compatibilitycheck: null,
+    dataUrl: "Release/WebGL.data",
+    codeUrl: "Release/WebGL.js",
+    memUrl: "Release/WebGL.mem",
+    
+  };
+</script>
+<script src="Release/UnityLoader.js"></script>
+
+    <script src="webvr-polyfill.js"></script> <!-- from: https://github.com/borismus/webvr-boilerplate -->
+    <script src="webvr.js"></script>
+  </body>
+</html>
