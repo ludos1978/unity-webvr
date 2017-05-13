@@ -1,12 +1,12 @@
-(function() {
+(function () {
   'use strict';
 
   function vrAnimate() {
     var cords = display.getPose();
-    SendMessage('WebVRCamera', 'TiltX', cords.orientation[0]);
-    SendMessage('WebVRCamera', 'TiltY', cords.orientation[1]);
-    SendMessage('WebVRCamera', 'TiltZ', cords.orientation[2]);
-    SendMessage('WebVRCamera', 'TiltW', cords.orientation[3]);
+    gameInstance.SendMessage('WebVRCamera', 'TiltX', cords.orientation[0]);
+    gameInstance.SendMessage('WebVRCamera', 'TiltY', cords.orientation[1]);
+    gameInstance.SendMessage('WebVRCamera', 'TiltZ', cords.orientation[2]);
+    gameInstance.SendMessage('WebVRCamera', 'TiltW', cords.orientation[3]);
 
     requestAnimationFrame(vrAnimate);
   }
@@ -16,24 +16,17 @@
       display = displays[0];
       WebVRConfig.DIRTY_SUBMIT_FRAME_BINDINGS = true;
       vrAnimate();
+      window.addEventListener('resize', handleResize, true);
+      handleResize();
     }
   }
 
   function handleResize() {
+    if (!canvas) {
+      canvas = document.getElementsByTagName('canvas')[0];
+    }
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-  }
-
-  function handleClick(event) {
-    if (canvas.requestFullscreen) {
-      canvas.requestFullscreen();
-    } else if (canvas.msRequestFullscreen) {
-      canvas.msRequestFullscreen();
-    } else if (canvas.mozRequestFullScreen) {
-      canvas.mozRequestFullScreen();
-    } else if (canvas.webkitRequestFullscreen) {
-      canvas.webkitRequestFullscreen();
-    }
   }
 
   function handleUnity(msg) {
@@ -41,21 +34,16 @@
       canvas = document.getElementById('canvas');
       loader = document.getElementById('loader');
 
-      window.addEventListener('resize', handleResize, true); 
-
-      canvas.addEventListener('click', handleClick, true);
-
-      SendMessage('WebVRCamera', 'Begin');
+      gameInstance.SendMessage('WebVRCamera', 'Begin');
 
       loader.style.display = 'none';
 
-      navigator.getVRDisplays().then(initVR); 
+      navigator.getVRDisplays().then(initVR);
     }
   }
 
   var display = null,
-      canvas = null,
-      loader = null;
-
+    canvas = null,
+    loader = null;
   document.addEventListener('Unity', handleUnity);
 })();
